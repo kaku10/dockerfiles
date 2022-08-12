@@ -12,3 +12,4 @@ if [[ -n "${opthash[(i)--no-cache]}" ]]; then
 fi
 
 docker build -t ffmpeg ${PROJECT_DIR}/ffmpeg --no-cache=${no_cache_flag}
+docker build -t sfdx ${PROJECT_DIR}/sfdx --no-cache=${no_cache_flag}
