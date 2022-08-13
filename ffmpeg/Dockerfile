@@ -1,7 +1,9 @@
 FROM debian:stable-slim
 
 RUN apt-get update \
-    && apt-get install -y locales ffmpeg --no-install-recommends
+    && apt-get install -y locales ffmpeg --no-install-recommends \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 RUN locale-gen ja_JP.UTF-8
 ENV LANG ja_JP.UTF-8
