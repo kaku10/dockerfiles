@@ -11,4 +11,7 @@ RUN localedef -f UTF-8 -i ja_JP ja_JP.utf8
 
 WORKDIR /work
 
+RUN adduser myuser && chown -R myuser /work
+USER myuser
+
 ENTRYPOINT ["/usr/bin/ffmpeg"]

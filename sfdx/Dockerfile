@@ -14,4 +14,7 @@ RUN sfdx plugins:install sfdmu
 
 WORKDIR /work
 
+RUN adduser myuser && chown -R myuser /work
+USER myuser
+
 ENTRYPOINT ["/usr/local/sfdx/bin/sfdx"]
