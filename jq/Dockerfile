@@ -1,7 +1,7 @@
 FROM debian:stable-slim
 
 RUN apt-get update \
-    && apt-get install -y locales jq
+    && apt-get install -y locales jq --no-install-recommends
 
 RUN locale-gen ja_JP.UTF-8
 ENV LANG ja_JP.UTF-8

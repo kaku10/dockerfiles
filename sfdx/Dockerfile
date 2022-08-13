@@ -1,7 +1,7 @@
 FROM salesforce/salesforcedx:latest-slim
 
 RUN apt-get update \
-    && apt-get install -y locales
+    && apt-get install -y locales --no-install-recommends
 
 RUN locale-gen ja_JP.UTF-8
 ENV LANG ja_JP.UTF-8
