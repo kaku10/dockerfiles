@@ -44,3 +44,4 @@ fi
 docker build -t ffmpeg "${PROJECT_DIR}/ffmpeg" --no-cache=${no_cache_flag}
 docker build -t sfdx "${PROJECT_DIR}/sfdx" --no-cache=${no_cache_flag}
 docker build -t jq "${PROJECT_DIR}/jq" --no-cache=${no_cache_flag}
+docker build -t node "${PROJECT_DIR}/node" --no-cache=${no_cache_flag}
