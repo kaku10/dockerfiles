@@ -2,7 +2,7 @@
 
 set -e
 
-PROJECT_DIR=$(cd $(dirname $0); pwd)
+PROJECT_DIR=$(cd "$(dirname "${0}")"; pwd)
 
 no_cache_flag=false
 
@@ -17,11 +17,11 @@ if [[ -n "${opthash[(i)--no-fail]}" ]]; then
   set +e
 fi
 
-for dockerfile in ${PROJECT_DIR}/*/Dockerfile ; do
+for dockerfile in "${PROJECT_DIR}"/*/Dockerfile ; do
   echo "Linting ${dockerfile}..."
   docker run --rm -i hadolint/hadolint < "${dockerfile}"
 done
 
-docker build -t ffmpeg ${PROJECT_DIR}/ffmpeg --no-cache=${no_cache_flag}
-docker build -t sfdx ${PROJECT_DIR}/sfdx --no-cache=${no_cache_flag}
-docker build -t jq ${PROJECT_DIR}/jq --no-cache=${no_cache_flag}
+docker build -t ffmpeg "${PROJECT_DIR}/ffmpeg" --no-cache=${no_cache_flag}
+docker build -t sfdx "${PROJECT_DIR}/sfdx" --no-cache=${no_cache_flag}
+docker build -t jq "${PROJECT_DIR}/jq" --no-cache=${no_cache_flag}
