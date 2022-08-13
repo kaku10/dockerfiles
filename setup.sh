@@ -35,7 +35,9 @@ done
 if [ ${lint_flag} == 'true' ]; then
   for dockerfile in "${PROJECT_DIR}"/*/Dockerfile ; do
     echo "Linting ${dockerfile}..."
-    docker run --rm -i hadolint/hadolint hadolint --ignore DL3008 - < "${dockerfile}"
+    if docker run --rm -i hadolint/hadolint hadolint --ignore DL3008 - < "${dockerfile}"; then
+      printf "\e[32mok\e[m\n" # print ok
+    fi
   done
 fi
 
