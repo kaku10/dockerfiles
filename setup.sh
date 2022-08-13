@@ -1,25 +1,36 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env bash
 
 set -e
 
 PROJECT_DIR=$(cd "$(dirname "${0}")"; pwd)
 
+lint_flag=false
 no_cache_flag=false
 
-local -A opthash
-zparseopts -D -A opthash -- -help -version v
-
-if [[ -n "${opthash[(i)--lint]}" ]]; then
-  lint_flag='true'
-fi
-
-if [[ -n "${opthash[(i)--no-cache]}" ]]; then
-  no_cache_flag='true'
-fi
-
-if [[ -n "${opthash[(i)--no-fail]}" ]]; then
-  set +e
-fi
+# Parse options
+while [[ ${#} -gt 0 ]]; do
+  case "${1}" in
+  --lint)
+    lint_flag='true'
+    shift
+    ;;
+  --no-cache)
+    no_cache_flag='true'
+    shift
+    ;;
+  --no-fail)
+    set +e
+    shift
+    ;;
+  -*)
+    echo "Given invalid option: ${1}"
+    exit 1
+    ;;
+  *)
+    shift
+    ;;
+  esac
+done
 
 if [ ${lint_flag} == 'true' ]; then
   for dockerfile in "${PROJECT_DIR}"/*/Dockerfile ; do
