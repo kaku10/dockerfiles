@@ -32,19 +32,14 @@ while [[ ${#} -gt 0 ]]; do
   esac
 done
 
-if [ ${lint_flag} == 'true' ]; then
-  for dockerfile in "${PROJECT_DIR}"/*/Dockerfile ; do
+for dockerfile in "${PROJECT_DIR}"/*/Dockerfile ; do
+  if [ ${lint_flag} == 'true' ]; then
     echo "Linting ${dockerfile}..."
     if docker run --rm -i hadolint/hadolint hadolint --ignore DL3008 - < "${dockerfile}"; then
       printf "\e[32mok\e[m\n" # print ok
     fi
-  done
-fi
+  fi
 
-docker build -t ffmpeg "${PROJECT_DIR}/ffmpeg" --no-cache=${no_cache_flag}
-docker build -t golang "${PROJECT_DIR}/golang" --no-cache=${no_cache_flag}
-docker build -t scrapy "${PROJECT_DIR}/scrapy" --no-cache=${no_cache_flag}
-docker build -t sfdx "${PROJECT_DIR}/sfdx" --no-cache=${no_cache_flag}
-docker build -t jq "${PROJECT_DIR}/jq" --no-cache=${no_cache_flag}
-docker build -t node "${PROJECT_DIR}/node" --no-cache=${no_cache_flag}
-docker build -t trdsql "${PROJECT_DIR}/trdsql" --no-cache=${no_cache_flag}
+  parent_dir_name="$(basename "$(dirname "${dockerfile}")")"
+  docker build -t ${parent_dir_name} "${PROJECT_DIR}/${parent_dir_name}" --no-cache=${no_cache_flag}
+done
