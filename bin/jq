@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker run -i --rm -v $(pwd):/work jq "$@"
+docker run -i --rm -v "$(pwd)":/work jq "$@"
