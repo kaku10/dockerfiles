@@ -1,18 +1,15 @@
-FROM debian:stable-slim
+FROM debian:stable-slim AS dl-env
 
 RUN apt-get update \
     && apt-get install -y curl unzip ca-certificates --no-install-recommends \
     && curl -OL https://github.com/noborus/trdsql/releases/download/v0.10.1/trdsql_v0.10.1_linux_arm64.zip \
     && unzip trdsql_v0.10.1_linux_arm64.zip \
-    && cp trdsql_v0.10.1_linux_arm64/trdsql /usr/bin/trdsql \
-    && rm -rf trdsql_v0.10.1_linux_arm64 trdsql_v0.10.1_linux_arm64.zip \
-    && apt-get remove --purge -y curl unzip ca-certificates \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && cp trdsql_v0.10.1_linux_arm64/trdsql /usr/bin/trdsql
 
+FROM gcr.io/distroless/base-debian11
+
+COPY --chown=nonroot:nonroot --from=dl-env /usr/bin/trdsql /usr/local/bin/trdsql
+USER nonroot
 WORKDIR /work
 
-RUN adduser myuser && chown -R myuser /work
-USER myuser
-
-ENTRYPOINT ["/usr/bin/trdsql"]
+ENTRYPOINT ["/usr/local/bin/trdsql"]
